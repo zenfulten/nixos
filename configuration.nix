@@ -66,7 +66,10 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    warn-dirty = false;
+  };
 
   system.stateVersion = "25.05"; # Did you read the comment?
 
