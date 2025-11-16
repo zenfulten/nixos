@@ -10,22 +10,15 @@ from libqtile.backend.wayland.inputs import InputConfig
 def autostart():
     subprocess.Popen(["wl-paste", "--type", "text", "--watch", "cliphist", "store"])
 
-
-
-# Create a dedicated function to poll the Wi-Fi status
 def get_wifi_status():
-    """Returns the current Wi-Fi SSID and signal strength."""
     try:
-        # Get the IN-USE connection (*), its SSID, and its SIGNAL
-        # Only query the active connection, which is usually faster
         output = subprocess.check_output(
             'nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | grep -E "^\*" | awk -F: \'{print $2 " (" $3 "%)"}\'',
             shell=True,
             text=True,
-            timeout=2 # Add a timeout to prevent freezing
+            timeout=2 
         ).strip()
 
-        # Check if output is empty (no active connection)
         if output:
             return output
         else:
@@ -38,7 +31,7 @@ mod = "mod1"
 terminal = guess_terminal()
 browser = "firefox"
 
-myTerm = "kitty"      # My terminal of choice
+myTerm = "kitty" 
 
 keys = [
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -59,10 +52,6 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
     Key(
         [mod, "shift"],
         "Return",
@@ -96,9 +85,13 @@ keys = [
     # Powermenu Script (Shutdown/Reboot/Logout menu)
     Key([mod, "control"], "p", lazy.spawn("/home/rio/nixos-dotfiles/config/qtile/scripts/powermenu.sh"),
         desc="Run powermenu.sh to show power menu"),
+
+    Key([mod, "control"], "e", lazy.spawn("/home/rio/nixos-dotfiles/config/qtile/scripts/emoji.sh"),
+        desc="Run emoji.sh to show emoji"),
+
     Key([mod], "c", lazy.spawn('sh -c "cliphist list | rofi -dmenu | cliphist decode | wl-copy"'), desc="Clipboard Manager"),
     Key(
-        ["control"], 
+        ["control"],
         "F12",
         lazy.spawn('sh -c "maim -s | xclip -selection clipboard -t image/png -i"'),
         desc="Screenshot"
@@ -118,9 +111,6 @@ keys = [
 
 ]
 
-# Add key bindings to switch VTs in Wayland.
-# We can't check qtile.core.name in default config as it is loaded before qtile is started
-# We therefore defer the check until the key binding is run by using .when(func=...)
 for vt in range(1, 8):
     keys.append(
         Key(
@@ -131,20 +121,17 @@ for vt in range(1, 8):
         )
     )
 
-
 groups = [Group(i) for i in "123"] # Only three numbered groups now
 
 for i in groups:
     keys.extend(
         [
-            # mod + group number = switch to group
             Key(
                 [mod],
                 i.name,
                 lazy.group[i.name].toscreen(),
                 desc=f"Switch to group {i.name}",
             ),
-            # mod + shift + group number = move focused window to group
             Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
                 desc="move focused window to group {}".format(i.name)),
         ]
@@ -163,7 +150,6 @@ colors = [
     ["#444b6a", "#444b6a"]   # color[9]  (bright.black)
 ]
 
-# helper in case your colors are ["#hex", "#hex"]
 def C(x): return x[0] if isinstance(x, (list, tuple)) else x
 
 layout_theme = {
@@ -176,17 +162,9 @@ layout_theme = {
 layouts = [
     layout.Columns(**layout_theme),
     layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
+    layout.Matrix(),
     layout.MonadTall(**layout_theme),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
+    layout.Zoomy(),
 ]
 
 widget_defaults = dict(
@@ -196,7 +174,6 @@ widget_defaults = dict(
     padding=0,
     background=colors[0],
 )
-
 
 extension_defaults = widget_defaults.copy()
 
@@ -208,7 +185,6 @@ screens = [
             widgets = [
                 widget.Spacer(length = 3),
                 # widget.Image(
-                #     # filename = "~/.config/qtile/icons/tonybtw.png",
                 #     filename = "~/.config/qtile/icons/debian.png",
                 #     scale = "False",
                 #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn("qtilekeys-yad")},
@@ -235,17 +211,6 @@ screens = [
                     other_current_screen_border = colors[7],
                     other_screen_border = colors[4],
                 ),
-                # widget.TextBox(
-                #     text = '|',
-                #     font = "JetBrainsMono Nerd Font Propo Bold",
-                #     foreground = colors[9],
-                #     padding = 2,
-                #     fontsize = 14
-                # ),
-                # widget.CurrentLayout(
-                #     foreground = colors[1],
-                #     padding = 5
-                # ),
                 widget.TextBox(
                     text = '|',
                     font = "JetBrainsMono Nerd Font Propo Bold",
@@ -258,41 +223,6 @@ screens = [
                     padding = 8,
                     max_chars = 40
                 ),
-                # widget.GenPollText(
-                #     update_interval = 300,
-                #     func = lambda: subprocess.check_output("printf $(uname -r)", shell=True, text=True),
-                #     foreground = colors[3],
-                #     padding = 8, 
-                #     fmt = '{}',
-                # ),
-                # sep,
-                # widget.CPU(
-                #     foreground = colors[4],
-                #     padding = 8, 
-                #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e btop')},
-                #     format="CPU: {load_percent}%",
-                # ),
-                # sep,
-                # widget.Memory(
-                #     foreground = colors[8],
-                #     padding = 8, 
-                #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e btop')},
-                #     format = 'Mem: {MemUsed:.0f}{mm}',
-                # ),
-                # sep,
-                # widget.DF(
-                #     update_interval = 60,
-                #     foreground = colors[5],
-                #     padding = 8, 
-                #     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('notify-disk')},
-                #     partition = '/',
-                #     #format = '[{p}] {uf}{m} ({r:.0f}%)',
-                #     format = '{uf}{m} free',
-                #     fmt = 'Disk: {}',
-                #     visible_on_warn = False,
-                # ),
-                sep,
-                # Replace your current GenPollText with this:
                 widget.GenPollText(
                     update_interval=5,
                     func=get_wifi_status, # Call the new function
@@ -314,42 +244,27 @@ screens = [
                     discharge_char='',            # Nerd icon; use '-' if you prefer plain ascii
                     full_char='✔',                 # when at/near 100%
                     unknown_char='?',
-                    empty_char='!', 
-                    mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e upower -i $(upower -e | grep BAT)'),
-                    },
+                    empty_char='!',
                 ),
-                # sep,
-                # widget.Volume(
-                #     foreground = colors[7],
-                #     padding = 8, 
-                #     fmt = 'Vol: {}',
-                # ),
                 sep,
                 widget.Clock(
                     foreground = colors[8],
-                    padding = 8, 
+                    padding = 8,
                     mouse_callbacks = {'Button1': lambda: qtile.cmd_spawn('notify-date')},
-                    ## Uncomment for date and time 
-                    format = "%a, %b %d - %H:%M",
-                    ## Uncomment for time only
-                    # format = "%I:%M %p",
+                    #format = "%a, %b %d - %H:%M",
+                    format = "%I:%M %p",
                 ),
                 widget.Systray(padding = 6),
                 widget.Spacer(length = 8),
             ],
-            # 24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"],  # Borders are magenta
-            margin=[0, 0, 1, 0], 
+            margin=[0, 0, 1, 0],
             size=30
         ),
-        wallpaper='~/nixos-dotfiles/images/image.png', 
+        wallpaper='~/nixos-dotfiles/images/image.png',
         wallpaper_mode='fill'
     ),
 ]
 
-# Drag floating layouts.
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
@@ -378,12 +293,8 @@ auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 
-# If things like steam games want to auto-minimize themselves when losing
-# focus, should we respect this or not?
 auto_minimize = True
 
-# When using the Wayland backend, this can be used to configure input devices.
-#wl_input_rules = None
 wl_input_rules = {
     "Elan Touchpad": InputConfig(
         tap=True,
@@ -392,7 +303,6 @@ wl_input_rules = {
     )
 }
 
-# xcursor theme (string or None) and size (integer) for Wayland backend
 wl_xcursor_theme = None
 wl_xcursor_size = 24
 
