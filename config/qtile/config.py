@@ -11,6 +11,29 @@ def autostart():
     subprocess.Popen(["wl-paste", "--type", "text", "--watch", "cliphist", "store"])
 
 
+
+# Create a dedicated function to poll the Wi-Fi status
+def get_wifi_status():
+    """Returns the current Wi-Fi SSID and signal strength."""
+    try:
+        # Get the IN-USE connection (*), its SSID, and its SIGNAL
+        # Only query the active connection, which is usually faster
+        output = subprocess.check_output(
+            'nmcli -t -f IN-USE,SSID,SIGNAL dev wifi | grep -E "^\*" | awk -F: \'{print $2 " (" $3 "%)"}\'',
+            shell=True,
+            text=True,
+            timeout=2 # Add a timeout to prevent freezing
+        ).strip()
+        
+        # Check if output is empty (no active connection)
+        if output:
+            return output
+        else:
+            return "Disconnected"
+
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+        return "Disconnected"
+
 mod = "mod1"
 terminal = guess_terminal()
 browser = "firefox"
@@ -257,6 +280,18 @@ screens = [
                 #     fmt = 'Disk: {}',
                 #     visible_on_warn = False,
                 # ),
+                sep,
+                # Replace your current GenPollText with this:
+                widget.GenPollText(
+                    update_interval=5,
+                    func=get_wifi_status, # Call the new function
+                    foreground=colors[5],
+                    padding=8,
+                    fmt=' {}', # Nerd Font Wi-Fi icon
+                    mouse_callbacks={
+                        'Button1': lazy.spawn(myTerm + ' -e nmcli device wifi list')
+                    },
+                ),
                  sep,
                  widget.Battery(
                      foreground=colors[6],           # pick a palette slot you like
