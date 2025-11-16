@@ -40,9 +40,7 @@
   programs.firefox.enable = true;
 
   environment.systemPackages = with pkgs; [
-    vim 
     wget
-    foot
   ];
 
   fonts.packages = with pkgs; [
@@ -55,6 +53,8 @@
     glibc
     zlib
   ];
+
+  nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 

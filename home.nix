@@ -12,6 +12,7 @@ let
     nushell = "nushell";
     starship = "starship";
     bottom = "bottom";
+    kitty = "kitty";
   };
 in
 
@@ -56,5 +57,7 @@ in
     bottom
     fd
     uv
+    vscode
+    kitty
   ];
 }

@@ -38,7 +38,7 @@ mod = "mod1"
 terminal = guess_terminal()
 browser = "firefox"
 
-myTerm = "foot"      # My terminal of choice
+myTerm = "kitty"      # My terminal of choice
 
 keys = [
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
