@@ -6,6 +6,10 @@ return {
 		{ "saghen/blink.compat", opts = { enable_events = true } },
 		{
 			"Exafunction/codeium.nvim",
+			lazy = false,
+			config = function()
+				require("codeium").setup({}) -- Minimal setup call
+			end,
 			dependencies = { "nvim-lua/plenary.nvim" },
 		},
 		{
