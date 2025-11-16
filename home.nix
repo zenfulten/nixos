@@ -49,7 +49,6 @@ in
     luarocks
     lua51Packages.lua
     brightnessctl
-    pipewire
     zoxide
     fzf
     bat

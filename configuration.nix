@@ -39,6 +39,16 @@
 
   programs.firefox.enable = true;
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true; # Start adapter on boot
+  };
+
+  # Optional: For better audio support
+  services.pipewire.enable = true; 
+  services.pipewire.alsa.enable = true;
+  services.pipewire.pulse.enable = true;
+
   environment.systemPackages = with pkgs; [
     wget
   ];
