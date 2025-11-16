@@ -24,7 +24,7 @@ def get_wifi_status():
             text=True,
             timeout=2 # Add a timeout to prevent freezing
         ).strip()
-        
+
         # Check if output is empty (no active connection)
         if output:
             return output
@@ -85,6 +85,17 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "d", lazy.spawn("rofi -show drun -show-icons"), desc='Run Launcher'),
     Key([], "Super_L", lazy.spawn("rofi -show drun -show-icons"), desc='Run Launcher'),
+    # Bluetooth Script (Toggle/Connect)
+    Key([mod, "control"], "b", lazy.spawn("/home/rio/nixos-dotfiles/config/qtile/scripts/bluetooth.sh"),
+        desc="Run bluetooth.sh to manage connection"),
+
+    # Network Script (e.g., dmenu/rofi for network selection)
+    Key([mod, "control"], "n", lazy.spawn("/home/rio/nixos-dotfiles/config/qtile/scripts/network.sh"),
+        desc="Run network.sh for Wi-Fi/Network selection"),
+
+    # Powermenu Script (Shutdown/Reboot/Logout menu)
+    Key([mod, "control"], "p", lazy.spawn("/home/rio/nixos-dotfiles/config/qtile/scripts/powermenu.sh"),
+        desc="Run powermenu.sh to show power menu"),
     Key([mod], "c", lazy.spawn('sh -c "cliphist list | rofi -dmenu | cliphist decode | wl-copy"'), desc="Clipboard Manager"),
     Key(
         ["control"], 
@@ -292,22 +303,22 @@ screens = [
                         'Button1': lazy.spawn(myTerm + ' -e nmcli device wifi list')
                     },
                 ),
-                 sep,
-                 widget.Battery(
-                     foreground=colors[6],           # pick a palette slot you like
-                     padding=8,
-                     update_interval=5,
-                     format='{percent:2.0%} {char} {hour:d}:{min:02d}',  # e.g. "73% ⚡ 1:45"
-                     fmt='Bat: {}',
-                     charge_char='',               # shown while charging
-                     discharge_char='',            # Nerd icon; use '-' if you prefer plain ascii
-                     full_char='✔',                 # when at/near 100%
-                     unknown_char='?',
-                     empty_char='!', 
-                     mouse_callbacks={
-                         'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e upower -i $(upower -e | grep BAT)'),
-                     },
-                 ),
+                sep,
+                widget.Battery(
+                    foreground=colors[6],           # pick a palette slot you like
+                    padding=8,
+                    update_interval=5,
+                    format='{percent:2.0%} {char} {hour:d}:{min:02d}',  # e.g. "73% ⚡ 1:45"
+                    fmt='Bat: {}',
+                    charge_char='',               # shown while charging
+                    discharge_char='',            # Nerd icon; use '-' if you prefer plain ascii
+                    full_char='✔',                 # when at/near 100%
+                    unknown_char='?',
+                    empty_char='!', 
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e upower -i $(upower -e | grep BAT)'),
+                    },
+                ),
                 # sep,
                 # widget.Volume(
                 #     foreground = colors[7],
