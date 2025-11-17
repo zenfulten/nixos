@@ -296,7 +296,7 @@ reconfigure_screens = True
 auto_minimize = True
 
 wl_input_rules = {
-    "Elan Touchpad": InputConfig(
+    "1267:86:Elan Touchpad": InputConfig(
         tap=True,
         natural_scroll=True,
         tap_button_map='lrm'
