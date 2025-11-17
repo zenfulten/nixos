@@ -40,6 +40,22 @@ alias cls = clear
 alias c = clear
 alias time = timeit 
 
+# File Operations
+alias l = lsd
+alias ll = lsd -l
+alias la = lsd -a
+alias lla = lsd -la
+alias lt = lsd --tree
+alias cat = bat
+alias tree = eza -T
+alias rm-safe = rm -I
+
+# Network
+alias ip = ip -c a  # Colorized output
+alias ping = ping -c 5
+alias wget = wget -c  # Continue interrupted downloads
+
+
 # Environment variables
 $env.EDITOR = "nvim"
 $env.VISUAL = "nvim"

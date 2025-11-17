@@ -30,4 +30,12 @@ path add ($env.HOME | path join "tools" "uv")
 
 path add ($env.HOME | path join "tools" "yazi")
 
+path add ($env.HOME | path join "tools" "bat" "bin")
+
+path add ($env.HOME | path join "tools" "bottom" "bin")
+
+path add ($env.HOME | path join "tools" "eza" "bin")
+
+path add ($env.HOME | path join "tools" "jq" "bin")
+
 zoxide init nushell | save -f ~/.zoxide.nu
