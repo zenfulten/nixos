@@ -14,6 +14,9 @@ let
     bottom = "bottom";
     kitty = "kitty";
     yazi = "yazi";
+    btop = "btop";
+    tmux = "tmux";
+    superfile = "superfile";
   };
 in
 
