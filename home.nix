@@ -13,6 +13,7 @@ let
     starship = "starship";
     bottom = "bottom";
     kitty = "kitty";
+    yazi = "yazi";
   };
 in
 
