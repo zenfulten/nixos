@@ -41,7 +41,6 @@ in
     ripgrep
     gcc
     rofi
-    yazi
     fastfetch
     nushell
     unzip
@@ -54,10 +53,7 @@ in
     fzf
     bat
     starship
-    bottom
     fd
-    uv
-    vscode
     kitty
   ];
 }

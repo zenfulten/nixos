@@ -300,6 +300,7 @@ wl_input_rules = {
         tap=True,
         natural_scroll=True,
         tap_button_map='lrm'
+        # click_method='clickfinger',
     )
 }
 
