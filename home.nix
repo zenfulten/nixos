@@ -44,7 +44,6 @@ in
     ripgrep
     gcc
     rofi
-    fastfetch
     nushell
     unzip
     wl-clipboard
@@ -54,7 +53,6 @@ in
     brightnessctl
     zoxide
     fzf
-    bat
     starship
     fd
     kitty
