@@ -55,5 +55,6 @@ in
     starship
     fd
     kitty
+    tmux
   ];
 }

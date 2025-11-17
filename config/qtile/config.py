@@ -304,7 +304,7 @@ wl_input_rules = {
     )
 }
 
-wl_xcursor_theme = None
+wl_xcursor_theme = "Bibata-Modern-Ice"
 wl_xcursor_size = 24
 
 wmname = "LG3D"
