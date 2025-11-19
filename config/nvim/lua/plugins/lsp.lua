@@ -41,8 +41,32 @@ return {
 		event = "VeryLazy",
 		priority = 1000,
 		opts = {
-			preset = "modern",
+			preset = "simple",
 			transparent_bg = true,
+			icons = {
+				Error = "󰅚 ", -- Error icon
+				Warn = "󰀪 ", -- Warning icon
+				Info = "󰋽 ", -- Info icon
+				Hint = "󰌶 ", -- Hint icon
+			},
+			hi = {
+				error = "DiagnosticError", -- Highlight for error diagnostics
+				warn = "DiagnosticWarn", -- Highlight for warning diagnostics
+				info = "DiagnosticInfo", -- Highlight for info diagnostics
+				hint = "DiagnosticHint", -- Highlight for hint diagnostics
+				arrow = "NonText", -- Highlight for the arrow pointing to diagnostic
+				background = "CursorLine", -- Background highlight for diagnostics
+				mixing_color = "Normal", -- Color to blend background with (or "None")
+			},
+			options = {
+				show_all_diags_on_cursorline = true,
+				severity = {
+					vim.diagnostic.severity.ERROR,
+					vim.diagnostic.severity.WARN,
+					vim.diagnostic.severity.INFO,
+					vim.diagnostic.severity.HINT,
+				},
+			},
 		},
 	},
 }
