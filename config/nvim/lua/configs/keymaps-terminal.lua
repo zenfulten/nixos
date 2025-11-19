@@ -5,4 +5,4 @@ map("n", "<leader>t", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
 map("t", "<esc><esc>", "<cmd>ToggleTerm<cr>", { desc = "Exit ToggleTerm" })
 
 -- ## Todo Comments
-map("n", "<leader>I", ":TodoTelescope<CR>", { desc = "Todo Telescope" })
+map("n", "<leader>I", "<Cmd>TodoTelescope<CR>", { desc = "Todo Telescope" })

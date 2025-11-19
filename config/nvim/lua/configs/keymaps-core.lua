@@ -70,8 +70,8 @@ map("i", "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
 map("n", "<leader>qa", "<cmd>qa<cr>", { desc = "Quit All" })
 
 -- Neo Tree
-map("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Toggle File Explorer" })
-map("n", "<leader>br", ":Neotree buffers reveal float<CR>", { desc = "Buffer Explorer" })
+map("n", "<leader>e", "<cmd>Neotree toggle<cr>", { desc = "Toggle File Explorer" })
+map("n", "<leader>br", "<cmd>Neotree buffers reveal float<cr>", { desc = "Buffer Explorer" })
 
 -- BufferLine
 map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })

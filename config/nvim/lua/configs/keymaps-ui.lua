@@ -2,6 +2,8 @@ local map = vim.keymap.set
 -- ## Alpha
 map("n", "<leader>h", "<cmd>Alpha<CR>", { desc = "Alpha" })
 
+--Reload nvim
+map("n", "<leader>uu", "<Cmd>update<CR> <Cmd>source<CR>", { desc = "Reload nvim" })
 ---------------------------------------------------
 
 -- ## ToggleContrast

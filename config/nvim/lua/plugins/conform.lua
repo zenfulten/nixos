@@ -14,6 +14,6 @@ return {
 		},
 	},
 	config = function()
-		require("core.conform").setup()
+		require("core.conform-formate").setup()
 	end,
 }

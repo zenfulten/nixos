@@ -38,4 +38,6 @@ path add ($env.HOME | path join "tools" "eza" "bin")
 
 path add ($env.HOME | path join "tools" "jq" "bin")
 
+path add ($env.HOME | path join "tools" "wifi" "bin")
+
 zoxide init nushell | save -f ~/.zoxide.nu

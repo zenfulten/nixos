@@ -1,3 +1,3 @@
 return {
-	preset = "luasnip",
+	preset = "default",
 }

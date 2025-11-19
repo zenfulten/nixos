@@ -218,7 +218,7 @@ map("n", "gi", function()
 	end
 end, { desc = "Go to Implementation" })
 
-map("n", "gi", function()
+map("n", "gr", function()
 	local ok, _ = pcall(vim.lsp.buf.references)
 	if not ok then
 		vim.notify("LSP references not available", vim.log.levels.WARN)
