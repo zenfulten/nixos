@@ -6,12 +6,12 @@ local map = vim.keymap.set
 --- @param lhs string The left-hand side key combination (e.g., '<leader>ld')
 --- @param rhs_func function The function to call (e.g., vim.lsp.buf.definition)
 --- @param desc string The description for the keymap
-function M.lsp_map(mode, lhs, rhs_func, desc)
+function M.safe_map(mode, lhs, rhs_func, desc) -- <-- RENAME HERE
 	map(mode, lhs, function()
 		local ok, _ = pcall(rhs_func)
 		if not ok then
-			local command_name = desc:match("([^%s]+)$") or "LSP command"
-			vim.notify(command_name .. " not available", vim.log.levels.WARN, { title = "LSP Keymap" })
+			local command_name = desc:match("([^%s]+)$") or "Command"
+			vim.notify(command_name .. " not available", vim.log.levels.WARN, { title = "Keymap Error" })
 		end
 	end, { desc = desc })
 end

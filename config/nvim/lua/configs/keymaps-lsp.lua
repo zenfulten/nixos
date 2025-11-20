@@ -1,6 +1,6 @@
 local util = require("utils.keymaps")
 
-local lsp_map = util.lsp_map
+local lsp_map = util.safe_map
 
 -- Go to Definition
 lsp_map("n", "<leader>ld", vim.lsp.buf.definition, "Go to Definition")

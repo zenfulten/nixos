@@ -1,32 +1,17 @@
-local map = vim.keymap.set
+local util = require("utils.keymaps")
+local safe_map = util.safe_map -- The safe-calling map function (renamed here for clarity)
+
 local builtin = require("telescope.builtin")
 
--- ## Git Operations
--- Enhanced navigation
-map("n", "<leader>gf", function()
-	local ok, _ = pcall(builtin.git_files)
-	if not ok then
-		vim.notify("Git files search not available (not in git repo)", vim.log.levels.WARN)
-	end
-end, { desc = "Search Git Files" })
+-- Search Git Files
+safe_map("n", "<leader>gf", builtin.git_files, "Search Git Files (Telescope)")
+-- Note: The utility function's error message will be "Git Files (Telescope) not available"
 
-map("n", "<leader>gb", function()
-	local ok, _ = pcall(builtin.git_branches)
-	if not ok then
-		vim.notify("Git branches search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Git Branches" })
+-- Search Git Branches
+safe_map("n", "<leader>gb", builtin.git_branches, "Search Git Branches (Telescope)")
 
-map("n", "<leader>gc", function()
-	local ok, _ = pcall(builtin.git_commits)
-	if not ok then
-		vim.notify("Git commits search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Git Commits" })
+-- Search Git Commits
+safe_map("n", "<leader>gc", builtin.git_commits, "Search Git Commits (Telescope)")
 
-map("n", "<leader>gC", function()
-	local ok, _ = pcall(builtin.git_bcommits)
-	if not ok then
-		vim.notify("Git buffer commits search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Git Commits for Buffer" })
+-- Search Git Commits for Buffer
+safe_map("n", "<leader>gC", builtin.git_bcommits, "Search Git Buffer Commits (Telescope)")

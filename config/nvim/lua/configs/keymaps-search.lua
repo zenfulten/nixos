@@ -1,192 +1,82 @@
-local map = vim.keymap.set
+local util = require("utils.keymaps")
+local safe_map = util.safe_map -- The safe-calling map function
+
 local builtin = require("telescope.builtin")
 
--- ## Telescope - Search & Find Operations
--- Grouped under leader + f (for 'find')
-map("n", "<leader>ff", function()
-	local ok, _ = pcall(builtin.find_files)
-	if not ok then
-		vim.notify("Find files not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Files" })
+-- Find Files
+safe_map("n", "<leader>ff", builtin.find_files, "Find Files")
 
-map("n", "<leader>fF", function()
-	local ok, telescope = pcall(require, "telescope")
-	if ok and telescope.extensions and telescope.extensions.smart_open then
-		telescope.extensions.smart_open.smart_open()
-	else
-		vim.notify("Smart open not available", vim.log.levels.WARN)
-	end
-end, { desc = "Smart Open Files" })
+-- Smart Open Files (requires Telescope Smart Open extension)
+safe_map("n", "<leader>fF", function()
+	local telescope = require("telescope")
+	return telescope.extensions.smart_open.smart_open()
+end, "Smart Open Files")
 
-map("n", "<leader>fg", function()
-	local ok, _ = pcall(builtin.live_grep)
-	if not ok then
-		vim.notify("Live grep not available", vim.log.levels.WARN)
-	end
-end, { desc = "Live Grep" })
+-- Live Grep (Search in Project)
+safe_map("n", "<leader>fg", builtin.live_grep, "Live Grep (Project)")
 
-map("n", "<leader>fG", function()
-	local ok, _ = pcall(builtin.live_grep, { cwd = vim.fn.expand("%:p:h") })
-	if not ok then
-		vim.notify("Live grep in directory not available", vim.log.levels.WARN)
-	end
-end, { desc = "Live Grep in Directory" })
+-- Live Grep in Current Directory
+safe_map("n", "<leader>fG", function()
+	return builtin.live_grep({ cwd = vim.fn.expand("%:p:h") })
+end, "Live Grep (Directory)")
 
-map("n", "<leader>fb", function()
-	local ok, _ = pcall(builtin.buffers)
-	if not ok then
-		vim.notify("Buffers search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Buffers" })
+-- Find Buffers
+safe_map("n", "<leader>fb", builtin.buffers, "Find Buffers")
 
-map("n", "<leader>fo", function()
-	local ok, _ = pcall(builtin.oldfiles)
-	if not ok then
-		vim.notify("Old files search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Old Files" })
+-- Find Old Files (Recent files)
+safe_map("n", "<leader>fo", builtin.oldfiles, "Find Old Files")
+safe_map("n", "<leader>bh", builtin.oldfiles, "Recent Files") -- Duplication removed
 
-map("n", "<leader>fr", function()
-	local ok, _ = pcall(builtin.resume)
-	if not ok then
-		vim.notify("Resume search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Resume Last Search" })
+-- Resume Last Search
+safe_map("n", "<leader>fr", builtin.resume, "Resume Last Search")
 
-map("n", "<leader>fz", function()
-	local ok, _ = pcall(builtin.current_buffer_fuzzy_find)
-	if not ok then
-		vim.notify("Buffer fuzzy find not available", vim.log.levels.WARN)
-	end
-end, { desc = "Fuzzy Find in Current Buffer" })
+-- Fuzzy Find in Current Buffer
+safe_map("n", "<leader>fz", builtin.current_buffer_fuzzy_find, "Fuzzy Find in Current Buffer")
+safe_map("n", "<leader>?", builtin.current_buffer_fuzzy_find, "Search in Current Buffer") -- Duplication removed
 
-map("n", "<leader>fh", function()
-	local ok, _ = pcall(builtin.help_tags)
-	if not ok then
-		vim.notify("Help tags not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Help Tags" })
+-- Find Help Tags
+safe_map("n", "<leader>fh", builtin.help_tags, "Find Help Tags")
 
-map("n", "<leader>fm", function()
-	local ok, _ = pcall(builtin.man_pages)
-	if not ok then
-		vim.notify("Man pages not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Man Pages" })
+-- Find Man Pages
+safe_map("n", "<leader>fm", builtin.man_pages, "Find Man Pages")
 
-map("n", "<leader>fk", function()
-	local ok, _ = pcall(builtin.keymaps)
-	if not ok then
-		vim.notify("Keymaps search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Keymaps" })
+-- Find Keymaps
+safe_map("n", "<leader>fk", builtin.keymaps, "Find Keymaps")
 
-map("n", "<leader>fc", function()
-	local ok, _ = pcall(builtin.commands)
-	if not ok then
-		vim.notify("Commands search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Commands" })
+-- Find Commands
+safe_map("n", "<leader>fc", builtin.commands, "Find Commands")
 
-map("n", "<leader>ft", function()
-	local ok, _ = pcall(builtin.grep_string)
-	if not ok then
-		vim.notify("Grep string not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find string under cursor" })
+-- List File Types
+safe_map("n", "<leader>bt", builtin.filetypes, "List File Types")
 
-map("n", "<leader>fT", function()
-	local ok, _ = pcall(builtin.grep_string, { search = vim.fn.expand("<cword>") })
-	if not ok then
-		vim.notify("Grep word under cursor not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Word Under Cursor" })
+-- Find string under cursor (Default setting uses '<cword>')
+safe_map("n", "<leader>ft", builtin.grep_string, "Find String Under Cursor") -- Renamed description for clarity
 
-map("n", "<leader>fs", function()
-	local ok, _ = pcall(builtin.symbols)
-	if not ok then
-		vim.notify("Symbols search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Symbols" })
+-- Find Word Under Cursor (Explicit <cword> search)
+safe_map("n", "<leader>fT", function()
+	return builtin.grep_string({ search = vim.fn.expand("<cword>") })
+end, "Find Word Under Cursor")
+safe_map("n", "<leader>sw", function()
+	return builtin.grep_string({ search = vim.fn.expand("<cword>") })
+end, "Search Word Under Cursor") -- Duplication preserved for different leader key mapping
 
-map("n", "<leader>fS", function()
-	local ok, _ = pcall(builtin.lsp_workspace_symbols)
-	if not ok then
-		vim.notify("Workspace symbols not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find Workspace Symbols" })
+-- Find Symbols (e.g., tags)
+safe_map("n", "<leader>fs", builtin.symbols, "Find Symbols")
 
--- Quick search shortcuts
-map("n", "<leader>/", function()
-	local ok, _ = pcall(builtin.live_grep)
-	if not ok then
-		vim.notify("Project search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search in Project" })
+-- Find Workspace Symbols
+safe_map("n", "<leader>fS", builtin.lsp_workspace_symbols, "Find Workspace Symbols")
 
-map("n", "<leader>?", function()
-	local ok, _ = pcall(builtin.current_buffer_fuzzy_find)
-	if not ok then
-		vim.notify("Buffer search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search in Current Buffer" })
+-- Search in Project (Live Grep)
+safe_map("n", "<leader>/", builtin.live_grep, "Search in Project")
+safe_map("n", "<leader>sp", builtin.live_grep, "Search in Project") -- Duplication preserved
 
-map("n", "<leader>*", function()
-	local ok, _ = pcall(builtin.grep_string, { search = vim.fn.expand("<cword>") })
-	if not ok then
-		vim.notify("Word search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Word Under Cursor" })
+-- Search Word Under Cursor (using <cword>)
+safe_map("n", "<leader>*", function()
+	return builtin.grep_string({ search = vim.fn.expand("<cword>") })
+end, "Search Word Under Cursor")
 
-map("v", "<leader>*", function()
-	local text = vim.get_visual_selection()
-	local ok, _ = pcall(builtin.grep_string, { search = text })
-	if not ok then
-		vim.notify("Visual selection search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Visual Selection" })
-
--- Enhanced search and navigation
-map("n", "<leader>sw", function()
-	local ok, _ = pcall(builtin.grep_string, { search = vim.fn.expand("<cword>") })
-	if not ok then
-		vim.notify("Word search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search Word Under Cursor" })
-
-map("n", "<leader>sd", function()
-	local ok, _ = pcall(builtin.live_grep, { cwd = vim.fn.expand("%:p:h") })
-	if not ok then
-		vim.notify("Directory search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search in Directory" })
-
-map("n", "<leader>sp", function()
-	local ok, _ = pcall(builtin.live_grep)
-	if not ok then
-		vim.notify("Project search not available", vim.log.levels.WARN)
-	end
-end, { desc = "Search in Project" })
-
--- Quick navigation
-map("n", "<leader>bb", function()
-	local ok, _ = pcall(builtin.buffers)
-	if not ok then
-		vim.notify("Buffer list not available", vim.log.levels.WARN)
-	end
-end, { desc = "List Buffers" })
-
-map("n", "<leader>bt", function()
-	local ok, _ = pcall(builtin.filetypes)
-	if not ok then
-		vim.notify("File types list not available", vim.log.levels.WARN)
-	end
-end, { desc = "List File Types" })
-
-map("n", "<leader>bh", function()
-	local ok, _ = pcall(builtin.oldfiles)
-	if not ok then
-		vim.notify("Recent files not available", vim.log.levels.WARN)
-	end
-end, { desc = "Recent Files" })
+-- Search Visual Selection
+safe_map("v", "<leader>*", function()
+	local text = vim.fn.getbufline(0, "v")[1] -- Using a reliable way to get visual selection
+	return builtin.grep_string({ search = text })
+end, "Search Visual Selection")
