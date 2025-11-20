@@ -1,240 +1,103 @@
-local map = vim.keymap.set
+local util = require("utils.keymaps")
 
--- ## LSP Navigation & Symbols
--- Grouped under leader + l
-map("n", "<leader>ld", function()
-	local ok, _ = pcall(vim.lsp.buf.definition)
-	if not ok then
-		vim.notify("LSP definition not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Definition" })
+local lsp_map = util.lsp_map
 
-map("n", "<leader>lD", function()
-	local ok, _ = pcall(vim.lsp.buf.declaration)
-	if not ok then
-		vim.notify("LSP declaration not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Declaration" })
+-- Go to Definition
+lsp_map("n", "<leader>ld", vim.lsp.buf.definition, "Go to Definition")
+lsp_map("n", "gd", vim.lsp.buf.definition, "Go to Definition (Quick)")
 
-map("n", "<leader>lt", function()
-	local ok, _ = pcall(vim.lsp.buf.type_definition)
-	if not ok then
-		vim.notify("LSP type definition not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Type Definition" })
+-- Go to Declaration
+lsp_map("n", "<leader>lD", vim.lsp.buf.declaration, "Go to Declaration")
+lsp_map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration (Quick)")
 
-map("n", "<leader>lI", function()
-	local ok, _ = pcall(vim.lsp.buf.implementation)
-	if not ok then
-		vim.notify("LSP implementation not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Implementation" })
+-- Go to Type Definition
+lsp_map("n", "<leader>lt", vim.lsp.buf.type_definition, "Go to Type Definition")
 
-map("n", "<leader>lr", function()
-	local ok, _ = pcall(vim.lsp.buf.references)
-	if not ok then
-		vim.notify("LSP references not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find References" })
+-- Go to Implementation
+lsp_map("n", "<leader>lI", vim.lsp.buf.implementation, "Go to Implementation")
+lsp_map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation (Quick)")
 
-map("n", "<leader>la", function()
-	local ok, _ = pcall(vim.lsp.buf.code_action)
-	if not ok then
-		vim.notify("LSP code actions not available", vim.log.levels.WARN)
-	end
-end, { desc = "Code Actions" })
+-- Find References
+lsp_map("n", "<leader>lr", vim.lsp.buf.references, "Find References")
+lsp_map("n", "gr", vim.lsp.buf.references, "Find References (Quick)")
 
-map("v", "<leader>la", function()
-	local ok, _ = pcall(vim.lsp.buf.code_action)
-	if not ok then
-		vim.notify("LSP code actions not available", vim.log.levels.WARN)
-	end
-end, { desc = "Code Actions (Visual)" })
+-- Rename Symbol
+lsp_map("n", "<leader>ln", vim.lsp.buf.rename, "Rename Symbol")
 
-map("n", "<leader>lq", function()
-	local ok, _ = pcall(vim.lsp.buf.code_action)
-	if not ok then
-		vim.notify("LSP quick fix not available", vim.log.levels.WARN)
-	end
-end, { desc = "Quick Fix" })
+-- Code Actions
+local code_action_func = function()
+	-- Using a wrapper function to ensure compatibility with lsp_map
+	return vim.lsp.buf.code_action()
+end
+lsp_map("n", "<leader>la", code_action_func, "Code Actions")
+lsp_map("v", "<leader>la", code_action_func, "Code Actions (Visual)")
+-- NOTE: The quick fix map was similar to code actions, keeping only the standard <leader>la
 
-map("n", "<leader>ln", function()
-	local ok, _ = pcall(vim.lsp.buf.rename)
-	if not ok then
-		vim.notify("LSP rename not available", vim.log.levels.WARN)
-	end
-end, { desc = "Rename Symbol" })
+-- Hover Documentation
+lsp_map("n", "<leader>lk", vim.lsp.buf.hover, "Hover Documentation")
+lsp_map("n", "K", vim.lsp.buf.hover, "Hover Documentation (Quick)")
 
-map("n", "<leader>lf", function()
-	local ok, _ = pcall(vim.lsp.buf.format, { async = true })
-	if not ok then
-		vim.notify("LSP formatting not available", vim.log.levels.WARN)
-	end
-end, { desc = "Format Document" })
+-- Signature Help
+lsp_map("n", "<leader>lK", vim.lsp.buf.signature_help, "Signature Help")
+-- NOTE: The commented out insert mode mapping for <C-k> is omitted for brevity but can be added back if desired.
 
-map("v", "<leader>lf", function()
-	local ok, _ = pcall(vim.lsp.buf.format, { async = true })
-	if not ok then
-		vim.notify("LSP formatting not available", vim.log.levels.WARN)
-	end
-end, { desc = "Format Selection" })
+-- Format Document
+lsp_map("n", "<leader>lf", function()
+	return vim.lsp.buf.format({ async = true })
+end, "Format Document")
 
-map("n", "<leader>lh", function()
-	local ok, _ = pcall(function()
-		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-	end)
-	if not ok then
-		vim.notify("Inlay hints not supported by LSP", vim.log.levels.WARN)
-	end
-end, { desc = "Toggle Inlay Hints" })
+-- Format Selection (Visual mode)
+lsp_map("v", "<leader>lf", function()
+	return vim.lsp.buf.format({ async = true })
+end, "Format Selection")
 
--- Symbol navigation
-map("n", "<leader>ls", function()
-	local ok, _ = pcall(vim.cmd, "Telescope lsp_document_symbols")
-	if not ok then
-		vim.notify("Document symbols not available", vim.log.levels.WARN)
-	end
-end, { desc = "Document Symbols" })
+-- Toggle Inlay Hints
+lsp_map("n", "<leader>lh", function()
+	-- Explicitly defining the function to toggle inlay hints
+	return vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, "Toggle Inlay Hints")
 
-map("n", "<leader>lS", function()
-	local ok, _ = pcall(vim.cmd, "Telescope lsp_workspace_symbols")
-	if not ok then
-		vim.notify("Workspace symbols not available", vim.log.levels.WARN)
-	end
-end, { desc = "Workspace Symbols" })
+-- Code Lens
+lsp_map("n", "<leader>lc", vim.lsp.codelens.run, "Run Code Lens")
+lsp_map("n", "<leader>lC", vim.lsp.codelens.refresh, "Refresh Code Lens")
 
-map("n", "<leader>lc", function()
-	local ok, _ = pcall(vim.lsp.codelens.run)
-	if not ok then
-		vim.notify("Code lens not available", vim.log.levels.WARN)
-	end
-end, { desc = "Run Code Lens" })
+-- Document Symbols (requires Telescope)
+lsp_map("n", "<leader>ls", function()
+	return vim.cmd("Telescope lsp_document_symbols")
+end, "Document Symbols (Telescope)")
 
-map("n", "<leader>lC", function()
-	local ok, _ = pcall(vim.lsp.codelens.refresh)
-	if not ok then
-		vim.notify("Code lens refresh not available", vim.log.levels.WARN)
-	end
-end, { desc = "Refresh Code Lens" })
+-- Workspace Symbols (requires Telescope)
+lsp_map("n", "<leader>lS", function()
+	return vim.cmd("Telescope lsp_workspace_symbols")
+end, "Workspace Symbols (Telescope)")
 
-map("n", "<leader>lo", function()
-	local ok, _ = pcall(vim.cmd, "Telescope lsp_outgoing_calls")
-	if not ok then
-		vim.notify("Outgoing calls not available", vim.log.levels.WARN)
-	end
-end, { desc = "Outgoing Calls" })
+-- Incoming/Outgoing Calls (requires Telescope)
+lsp_map("n", "<leader>lo", function()
+	return vim.cmd("Telescope lsp_outgoing_calls")
+end, "Outgoing Calls (Telescope)")
+-- NOTE: Duplicated <leader>lI keymap is removed. Use a unique key for Incoming Calls.
+lsp_map("n", "<leader>li", function() -- Changed to <leader>li (lowercase 'i')
+	return vim.cmd("Telescope lsp_incoming_calls")
+end, "Incoming Calls (Telescope)")
 
-map("n", "<leader>lI", function()
-	local ok, _ = pcall(vim.cmd, "Telescope lsp_incoming_calls")
-	if not ok then
-		vim.notify("Incoming calls not available", vim.log.levels.WARN)
-	end
-end, { desc = "Incoming Calls" })
+-- Previous Diagnostic
+lsp_map("n", "<leader>dp", vim.diagnostic.goto_prev, "Previous Diagnostic")
 
--- Enhanced hover and help
-map("n", "<leader>lk", function()
-	local ok, _ = pcall(vim.lsp.buf.hover)
-	if not ok then
-		vim.notify("LSP hover not available", vim.log.levels.WARN)
-	end
-end, { desc = "Hover Documentation" })
+-- Next Diagnostic
+lsp_map("n", "<leader>dn", vim.diagnostic.goto_next, "Next Diagnostic")
 
-map("n", "<leader>lK", function()
-	local ok, _ = pcall(vim.lsp.buf.signature_help)
-	if not ok then
-		vim.notify("LSP signature help not available", vim.log.levels.WARN)
-	end
-end, { desc = "Signature Help" })
+-- Show Diagnostic under cursor
+lsp_map("n", "<leader>dd", vim.diagnostic.open_float, "Show Diagnostic")
 
--- map("i", "<C-k>", function()
--- 	local ok, _ = pcall(vim.lsp.buf.signature_help)
--- 	if not ok then
--- 		vim.notify("LSP signature help not available", vim.log.levels.WARN)
--- 	end
--- end, { desc = "Signature Help" })
+-- List All Diagnostics (Telescope)
+lsp_map("n", "<leader>dl", function()
+	return vim.cmd("Telescope diagnostics")
+end, "List All Diagnostics (Telescope)")
 
--- Diagnostics navigation
-map("n", "<leader>dp", function()
-	local ok, _ = pcall(vim.diagnostic.goto_prev)
-	if not ok then
-		vim.notify("No previous diagnostic", vim.log.levels.WARN)
-	end
-end, { desc = "Previous Diagnostic" })
+-- List Buffer Diagnostics (Telescope)
+lsp_map("n", "<leader>dL", function()
+	return vim.cmd("Telescope diagnostics bufnr=0")
+end, "List Buffer Diagnostics (Telescope)")
 
-map("n", "<leader>dn", function()
-	local ok, _ = pcall(vim.diagnostic.goto_next)
-	if not ok then
-		vim.notify("No next diagnostic", vim.log.levels.WARN)
-	end
-end, { desc = "Next Diagnostic" })
-
-map("n", "<leader>dl", function()
-	local ok, _ = pcall(vim.cmd, "Telescope diagnostics")
-	if not ok then
-		vim.notify("Diagnostics list not available", vim.log.levels.WARN)
-	end
-end, { desc = "List All Diagnostics" })
-
-map("n", "<leader>dL", function()
-	local ok, _ = pcall(vim.cmd, "Telescope diagnostics bufnr=0")
-	if not ok then
-		vim.notify("Buffer diagnostics not available", vim.log.levels.WARN)
-	end
-end, { desc = "List Buffer Diagnostics" })
-
-map("n", "<leader>dd", function()
-	local ok, _ = pcall(vim.diagnostic.open_float)
-	if not ok then
-		vim.notify("No diagnostic at cursor", vim.log.levels.WARN)
-	end
-end, { desc = "Show Diagnostic" })
-
-map("n", "<leader>dq", function()
-	local ok, _ = pcall(vim.diagnostic.setloclist)
-	if not ok then
-		vim.notify("Failed to set diagnostics loclist", vim.log.levels.WARN)
-	end
-end, { desc = "Send Diagnostics to Loclist" })
-
--- Quick navigation shortcuts
-map("n", "gd", function()
-	local ok, _ = pcall(vim.lsp.buf.definition)
-	if not ok then
-		vim.notify("LSP definition not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Definition" })
-
-map("n", "gD", function()
-	local ok, _ = pcall(vim.lsp.buf.declaration)
-	if not ok then
-		vim.notify("LSP declaration not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Declaration" })
-
-map("n", "gi", function()
-	local ok, _ = pcall(vim.lsp.buf.implementation)
-	if not ok then
-		vim.notify("LSP implementation not available", vim.log.levels.WARN)
-	end
-end, { desc = "Go to Implementation" })
-
-map("n", "gr", function()
-	local ok, _ = pcall(vim.lsp.buf.references)
-	if not ok then
-		vim.notify("LSP references not available", vim.log.levels.WARN)
-	end
-end, { desc = "Find References" })
-
-map("n", "K", function()
-	local ok, _ = pcall(vim.lsp.buf.hover)
-	if not ok then
-		vim.notify("LSP hover not available", vim.log.levels.WARN)
-	end
-end, { desc = "Hover Documentation" })
-
--- map("n", "<C-k>", function()
--- 	local ok, _ = pcall(vim.lsp.buf.signature_help)
--- 	if not ok then
--- 		vim.notify("LSP signature help not available", vim.log.levels.WARN)
--- 	end
--- end, { desc = "Signature Help" })
+-- Send Diagnostics to Loclist
+lsp_map("n", "<leader>dq", vim.diagnostic.setloclist, "Send Diagnostics to Loclist")
