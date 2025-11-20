@@ -1,8 +1,11 @@
-local map = vim.keymap.set
+local util = require("utils.keymaps")
+local basic_map = util.basic_map
 
--- ## Terminal & External Tools
-map("n", "<leader>t", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
-map("t", "<esc><esc>", "<cmd>ToggleTerm<cr>", { desc = "Exit ToggleTerm" })
+-- Toggle Terminal (Normal mode)
+basic_map("n", "<leader>t", "<cmd>ToggleTerm<cr>", "Toggle Terminal")
 
--- ## Todo Comments
-map("n", "<leader>I", "<Cmd>TodoTelescope<CR>", { desc = "Todo Telescope" })
+-- Exit ToggleTerm (Terminal mode)
+basic_map("t", "<esc><esc>", "<cmd>ToggleTerm<cr>", "Exit ToggleTerm")
+
+-- Open Telescope search for todo comments
+basic_map("n", "<leader>I", "<Cmd>TodoTelescope<CR>", "Todo Telescope")

@@ -1,49 +1,37 @@
-local map = vim.keymap.set
--- ## Alpha
-map("n", "<leader>h", "<cmd>Alpha<CR>", { desc = "Alpha" })
+local util = require("utils.keymaps")
+local basic_map = util.basic_map
+local safe_map = util.safe_map
 
---Reload nvim
-map("n", "<leader>uu", "<Cmd>update<CR> <Cmd>source<CR>", { desc = "Reload nvim" })
----------------------------------------------------
+-- Reload nvim (LINE 8/9 area)
+basic_map("n", "<leader>ur", "<Cmd>update<CR><Cmd>source<CR>", "Reload nvim")
 
--- ## ToggleContrast
-map("n", "<leader>Hc", "<cmd>ToggleContrast<CR>", { desc = "Toggle High Contrast" })
-
--- ## Performance Monitoring
-map("n", "<leader>ps", "<cmd>Lazy profile<CR>", { desc = "Profile plugin startup time" })
-map("n", "<leader>pl", "<cmd>Lazy log<CR>", { desc = "Show Lazy logs" })
-map("n", "<leader>ph", "<cmd>Lazy health<CR>", { desc = "Check plugin health" })
-map("n", "<leader>pm", "<cmd>messages<CR>", { desc = "Show recent messages" })
-map("n", "<leader>pt", function()
+-- Show startup time (LINE 24 area)
+safe_map("n", "<leader>pt", function()
 	local stats = require("lazy").stats()
 	local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
 	vim.notify(
 		string.format("⚡ Neovim loaded %d/%d plugins in %s ms", stats.loaded, stats.count, ms),
-		vim.log.levels.INFO
+		vim.log.levels.INFO,
+		{ title = "Lazy Startup" }
 	)
-end, { desc = "Show startup time" })
+end, "Show startup time")
 
--- ## Quality of Life Improvements
--- Better search
-map("n", "<leader>Hh", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
+-- Copy current file path (LINE 44 area)
+safe_map("n", "<leader>Hp", function()
+	vim.fn.setreg("+", vim.fn.expand("%:p"))
+	vim.notify("Copied: " .. vim.fn.expand("%:p"), vim.log.levels.INFO, { title = "Path Copy" })
+end, "Copy current file path")
 
--- Quick commands
-map("n", "<leader>Hd", "<cmd>cd %:p:h<CR><cmd>pwd<CR>", { desc = "Change to current file directory" })
-map(
-	"n",
-	"<leader>Hp",
-	"<cmd>let @+ = expand('%:p')<CR><cmd>echo 'Copied: ' . @+<CR>",
-	{ desc = "Copy current file path" }
-)
-map(
-	"n",
-	"<leader>HP",
-	"<cmd>let @+ = expand('%:p:h')<CR><cmd>echo 'Copied: ' . @+<CR>",
-	{ desc = "Copy current file directory" }
-)
+-- Copy current file directory (LINE 50 area)
+safe_map("n", "<leader>HP", function()
+	vim.fn.setreg("+", vim.fn.expand("%:p:h"))
+	vim.notify("Copied: " .. vim.fn.expand("%:p:h"), vim.log.levels.INFO, { title = "Path Copy" })
+end, "Copy current file directory")
 
+-- ... (rest of the code) ...
 -- Quick access to important files
 local builtin = require("telescope.builtin")
-map("n", "<leader>fN", function()
+-- Using safe_map here just in case Telescope is not loaded, though basic_map is also sufficient.
+safe_map("n", "<leader>fN", function()
 	builtin.find_files({ cwd = "~/.config/nvim" })
-end, { desc = "Edit Neovim Config" })
+end, "Edit Neovim Config (Telescope)")
