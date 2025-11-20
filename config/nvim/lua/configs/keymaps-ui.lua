@@ -2,8 +2,19 @@ local util = require("utils.keymaps")
 local basic_map = util.basic_map
 local safe_map = util.safe_map
 
+basic_map("n", "<leader>h", "<cmd>Alpha<CR>", "Alpha")
+
 -- Reload nvim (LINE 8/9 area)
 basic_map("n", "<leader>ur", "<Cmd>update<CR><Cmd>source<CR>", "Reload nvim")
+
+-- Show Lazy logs
+basic_map("n", "<leader>pl", "<cmd>Lazy log<CR>", "Show Lazy logs")
+
+-- Check plugin health
+basic_map("n", "<leader>ph", "<cmd>Lazy health<CR>", "Check plugin health")
+
+-- Show recent messages (Vim messages)
+basic_map("n", "<leader>pm", "<cmd>messages<CR>", "Show recent messages")
 
 -- Show startup time (LINE 24 area)
 safe_map("n", "<leader>pt", function()
