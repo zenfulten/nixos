@@ -1,4 +1,4 @@
-require("core.lazy")
+require("core.lazys")
 local colorify = require("nvchad.colorify")
 colorify.run()
 require("configs.autocmds")
