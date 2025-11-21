@@ -89,4 +89,3 @@ g.loaded_ruby_provider = 0
 
 -- Global variables
 g.mapleader = " "
-g.background = "dark"

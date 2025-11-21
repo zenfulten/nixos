@@ -28,7 +28,7 @@ path add ($env.HOME | path join "tools" "scc" "bin")
 
 path add ($env.HOME | path join "tools" "uv")
 
-path add ($env.HOME | path join "tools" "yazi")
+# path add ($env.HOME | path join "tools" "yazi")
 
 path add ($env.HOME | path join "tools" "bat" "bin")
 

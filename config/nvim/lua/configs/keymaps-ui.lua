@@ -7,6 +7,14 @@ basic_map("n", "<leader>h", "<cmd>Alpha<CR>", "Alpha")
 -- Reload nvim (LINE 8/9 area)
 basic_map("n", "<leader>ur", "<Cmd>update<CR><Cmd>source<CR>", "Reload nvim")
 
+safe_map("n", "<leader>ut", function()
+	require("telescope.builtin").colorscheme({
+		enable_preview = true,
+		previewer = false,
+		ignore_builtins = true,
+	})
+end, "Telescope: Colorscheme Picker (Live Preview)")
+
 -- Show Lazy logs
 basic_map("n", "<leader>pl", "<cmd>Lazy log<CR>", "Show Lazy logs")
 

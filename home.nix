@@ -57,5 +57,6 @@ in
     fd
     kitty
     tmux
+    yazi
   ];
 }

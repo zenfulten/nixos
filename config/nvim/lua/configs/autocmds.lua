@@ -1,8 +1,21 @@
-vim.cmd("colorscheme catppuccin")
+if vim.g.colors_name == nil then
+	vim.cmd("colorscheme catppuccin-mocha")
+end
 
 --remove auto-comment
 vim.cmd("autocmd BufEnter * set formatoptions-=cro")
 vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
+
+local lualine_module = require("core.lualine")
+vim.api.nvim_create_augroup("LualineThemeReload", { clear = true })
+vim.api.nvim_create_autocmd("ColorScheme", {
+	group = "LualineThemeReload",
+	pattern = "*", -- Apply this to every colorscheme change
+	callback = function()
+		lualine_module.setup()
+		vim.cmd("redraw!")
+	end,
+})
 
 local function augroup(name)
 	return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
