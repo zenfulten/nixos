@@ -11,6 +11,9 @@ safe_map("n", "<leader>ut", function()
 	require("telescope.builtin").colorscheme({
 		enable_preview = true,
 		previewer = false,
+		layout_config = {
+			width = 0.3,
+		},
 		ignore_builtins = true,
 	})
 end, "Telescope: Colorscheme Picker (Live Preview)")

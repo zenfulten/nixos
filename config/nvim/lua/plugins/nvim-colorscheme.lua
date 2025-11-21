@@ -4,7 +4,7 @@ return {
 	lazy = false,
 	name = "catppuccin",
 	opts = {
-		transparent_background = true,
+		transparent_background = false,
 		flavour = "macchiato", -- latte, frappe, macchiato, mocha
 		background = { -- :h background
 			dark = "macchiato",
