@@ -134,27 +134,27 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 -- make buffer and lualine transparent
-vim.api.nvim_create_autocmd({ "UiEnter", "ColorScheme" }, {
-	callback = function()
-		-- 1.
-		vim.cmd([[
-      hi TabLineFill gui=nocombine
-      hi WinBar gui=nocombine
-    ]])
-		-- 2.
-		vim.cmd([[
-      hi TabLineFill guibg=none
-      hi WinBar gui=none
-    ]])
-		-- 3.
-		vim.cmd([[
-      hi! link TabLineFill Normal
-      hi! link WinBar Normal
-    ]])
-		--4.
-		vim.cmd("hi StatusLine guibg=NONE ctermbg=NONE")
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "UiEnter", "ColorScheme" }, {
+-- 	callback = function()
+-- 		-- 1.
+-- 		vim.cmd([[
+--       hi TabLineFill gui=nocombine
+--       hi WinBar gui=nocombine
+--     ]])
+-- 		-- 2.
+-- 		vim.cmd([[
+--       hi TabLineFill guibg=none
+--       hi WinBar gui=none
+--     ]])
+-- 		-- 3.
+-- 		vim.cmd([[
+--       hi! link TabLineFill Normal
+--       hi! link WinBar Normal
+--     ]])
+-- 		--4.
+-- 		vim.cmd("hi StatusLine guibg=NONE ctermbg=NONE")
+-- 	end,
+-- })
 
 -- Dim inactive windows
 -- vim.api.nvim_create_autocmd({ "WinEnter", "FocusGained" }, {
