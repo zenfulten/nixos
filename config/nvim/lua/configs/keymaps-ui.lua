@@ -13,6 +13,7 @@ safe_map("n", "<leader>ut", function()
 		previewer = false,
 		layout_config = {
 			width = 0.3,
+			height = 0.5,
 		},
 		ignore_builtins = true,
 	})
