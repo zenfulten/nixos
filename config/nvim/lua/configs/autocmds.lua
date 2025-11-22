@@ -1,5 +1,5 @@
 if vim.g.colors_name == nil then
-	vim.cmd("colorscheme catppuccin-mocha")
+	vim.cmd("colorscheme cyberdream")
 end
 
 --remove auto-comment
