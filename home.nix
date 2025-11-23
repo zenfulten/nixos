@@ -58,5 +58,6 @@ in
     kitty
     tmux
     yazi
+    gopls
   ];
 }
