@@ -38,7 +38,7 @@ return {
 	},
 	{
 		"rachartier/tiny-inline-diagnostic.nvim",
-		event = "VeryLazy",
+		event = "InsertEnter",
 		priority = 1000,
 		opts = {
 			preset = "simple",
