@@ -5,6 +5,7 @@ return {
 		config = function()
 			require("toggleterm").setup({
 				start_in_insert = true,
+				shell = "nu",
 				insert_mappings = true,
 				close_on_exit = true,
 				direction = "float",
