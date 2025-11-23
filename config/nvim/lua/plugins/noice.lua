@@ -1,8 +1,12 @@
--- File: lua/plugins/noice.lua
-
 return {
 	"folke/noice.nvim",
-	event = "VimEnter",
+	event = "VeryLazy",
+	cmd = {
+		"Noice",
+		"NoiceEnable",
+		"NoiceDisable",
+		"NoiceLog",
+	},
 	dependencies = {
 		"MunifTanjim/nui.nvim",
 		"rcarriga/nvim-notify",

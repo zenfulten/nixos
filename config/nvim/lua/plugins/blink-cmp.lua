@@ -1,12 +1,12 @@
 return {
 	"saghen/blink.cmp",
-	lazy = false,
+	event = "InsertEnter",
 	version = "v0.*",
 	dependencies = {
 		{ "saghen/blink.compat", opts = { enable_events = true } },
 		{
 			"Exafunction/codeium.nvim",
-			lazy = false,
+			event = "InsertEnter",
 			config = function()
 				require("codeium").setup({}) -- Minimal setup call
 			end,
@@ -14,6 +14,7 @@ return {
 		},
 		{
 			"L3MON4D3/LuaSnip",
+			event = "InsertEnter",
 			dependencies = { "rafamadriz/friendly-snippets" },
 			opts = {},
 			config = function()

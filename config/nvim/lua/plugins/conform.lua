@@ -1,8 +1,6 @@
--- File: lua/plugins/conform.lua
-
 return {
 	"stevearc/conform.nvim",
-	lazy = false,
+	event = "BufWritePre",
 	keys = {
 		{
 			"<leader>fc",

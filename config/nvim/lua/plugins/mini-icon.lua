@@ -1,6 +1,7 @@
 return {
 	"echasnovski/mini.icons",
 	event = "VeryLazy",
+
 	opts = {
 		file = {
 			[".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
@@ -10,10 +11,15 @@ return {
 			dotenv = { glyph = "", hl = "MiniIconsYellow" },
 		},
 	},
+
 	init = function()
 		package.preload["nvim-web-devicons"] = function()
 			require("mini.icons").mock_nvim_web_devicons()
 			return package.loaded["nvim-web-devicons"]
 		end
+	end,
+
+	config = function(_, opts)
+		require("mini.icons").setup(opts)
 	end,
 }

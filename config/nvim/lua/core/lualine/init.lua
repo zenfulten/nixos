@@ -1,9 +1,16 @@
-local sections = require("core.lualine.sections")
-
 local M = {}
 
 function M.setup()
-	local lualine = require("lualine")
+	local ok_lualine, lualine = pcall(require, "lualine")
+	if not ok_lualine then
+		return
+	end
+
+	local ok_sections, sections = pcall(require, "core.lualine.sections")
+	if not ok_sections then
+		return
+	end
+
 	local current_cs = vim.g.colors_name
 	local lualine_theme = current_cs or "auto"
 

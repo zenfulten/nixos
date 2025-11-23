@@ -2,18 +2,24 @@ if vim.g.colors_name == nil then
 	vim.cmd("colorscheme cyberdream")
 end
 
---remove auto-comment
-vim.cmd("autocmd BufEnter * set formatoptions-=cro")
-vim.cmd("autocmd BufEnter * setlocal formatoptions-=cro")
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = vim.api.nvim_create_augroup("no_auto_comment", { clear = true }),
+	callback = function()
+		-- remove c, r, o locally
+		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+	end,
+})
 
-local lualine_module = require("core.lualine")
 vim.api.nvim_create_augroup("LualineThemeReload", { clear = true })
 vim.api.nvim_create_autocmd("ColorScheme", {
 	group = "LualineThemeReload",
-	pattern = "*", -- Apply this to every colorscheme change
+	pattern = "*",
 	callback = function()
-		lualine_module.setup()
-		vim.cmd("redraw!")
+		local ok, lualine_module = pcall(require, "core.lualine")
+		if ok then
+			lualine_module.setup()
+			vim.cmd("redraw!")
+		end
 	end,
 })
 
@@ -172,9 +178,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 -- })
 
 -- Show relative line numbers in normal mode, absolute in insert mode
-vim.opt.number = true
-vim.opt.relativenumber = true
-
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
 	pattern = "*",
 	command = "setlocal norelativenumber",
