@@ -4,5 +4,5 @@ return {
 	{ "savq/melange-nvim", lazy = true },
 	{ "rose-pine/neovim", lazy = true },
 	{ "navarasu/onedark.nvim", lazy = true },
-	{ "scottmckendry/cyberdream.nvim", lazy = true },
+	{ "scottmckendry/cyberdream.nvim", lazy = false, priority = 1000 },
 }
