@@ -1,5 +1,18 @@
 return {
-	{ "folke/tokyonight.nvim", lazy = true },
+	{
+		"folke/tokyonight.nvim",
+		lazy = true,
+		opts = {
+			transparent = true,
+			styles = {
+				sidebars = "transparent",
+				floats = "transparent",
+			},
+			on_colors = function(colors)
+				colors.bg_statusline = "NONE"
+			end,
+		},
+	},
 	{
 		"scottmckendry/cyberdream.nvim",
 		lazy = true,
