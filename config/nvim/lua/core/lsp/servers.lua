@@ -3,7 +3,7 @@
 local M = {
 	"lua_ls",
 	"dartls",
-	"pyright",
+	"pyrefly",
 	"rust_analyzer",
 }
 
