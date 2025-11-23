@@ -1,10 +1,10 @@
 return {
 	"catppuccin/nvim",
-	-- priority = 1000,
-	lazy = true,
+	priority = 1000,
+	lazy = false,
 	name = "catppuccin",
 	opts = {
-		transparent_background = false,
+		transparent_background = true,
 		flavour = "macchiato", -- latte, frappe, macchiato, mocha
 		background = { -- :h background
 			dark = "macchiato",
