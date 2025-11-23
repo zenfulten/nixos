@@ -4,7 +4,8 @@ local M = {
 	"lua_ls",
 	"dartls",
 	"pyrefly",
-	"rust_analyzer",
+	-- "rust_analyzer",
+	"gopls",
 }
 
 return M

@@ -7,6 +7,7 @@ M.setup = function()
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "ruff_fix", "ruff_format" },
+			go = { "gofumpt", "goimports" },
 		},
 		format_on_save = {
 			timeout_ms = 500,
