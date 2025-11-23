@@ -39,7 +39,6 @@ lsp_map("n", "K", vim.lsp.buf.hover, "Hover Documentation (Quick)")
 
 -- Signature Help
 lsp_map("n", "<leader>lK", vim.lsp.buf.signature_help, "Signature Help")
--- NOTE: The commented out insert mode mapping for <C-k> is omitted for brevity but can be added back if desired.
 
 -- Format Document
 lsp_map("n", "<leader>lf", function()
