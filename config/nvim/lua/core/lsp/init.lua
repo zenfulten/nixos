@@ -1,11 +1,28 @@
--- File: lua/core/lsp/init.lua
-
 local M = {}
+
+local function setup_rust_analyzer()
+	local rust_nightly_path = vim.fn.expand("$HOME") .. "/.sdk/rust-nightly"
+
+	vim.lsp.config.rust_analyzer = {
+		settings = {
+			["rust-analyzer"] = {
+				sysroot = rust_nightly_path,
+				check = {
+					command = "cargo",
+				},
+				procMacro = {
+					enable = true,
+				},
+			},
+		},
+	}
+end
 
 function M.setup()
 	local servers = require("core.lsp.servers")
 
-	-- Setup each server listed in servers.lua
+	setup_rust_analyzer()
+
 	for _, lsp in ipairs(servers) do
 		vim.lsp.enable(lsp)
 	end
