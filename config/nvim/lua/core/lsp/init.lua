@@ -27,6 +27,7 @@ function M.setup()
 		vim.lsp.enable(lsp)
 	end
 
+	local icons = require("core.icons")
 	vim.diagnostic.config({
 		virtual_text = false,
 		virtual_lines = false,
@@ -39,10 +40,10 @@ function M.setup()
 		},
 		signs = {
 			text = {
-				[vim.diagnostic.severity.ERROR] = "󰅚 ",
-				[vim.diagnostic.severity.WARN] = "󰀪 ",
-				[vim.diagnostic.severity.INFO] = "󰋽 ",
-				[vim.diagnostic.severity.HINT] = "󰌶 ",
+				[vim.diagnostic.severity.ERROR] = icons.Error,
+				[vim.diagnostic.severity.WARN] = icons.Warn,
+				[vim.diagnostic.severity.INFO] = icons.Info,
+				[vim.diagnostic.severity.HINT] = icons.Hint,
 			},
 			numhl = {
 				[vim.diagnostic.severity.ERROR] = "ErrorMsg",
