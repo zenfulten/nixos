@@ -2,6 +2,8 @@ use std "path add"
 
 path add ($env.HOME | path join ".sdk" "node" "bin")
 
+path add ($env.HOME | path join ".sdk")
+
 path add ($env.HOME | path join "mem" "sdk" "go" "bin")
 
 path add ($env.HOME | path join "mem" "tools" "bin")
